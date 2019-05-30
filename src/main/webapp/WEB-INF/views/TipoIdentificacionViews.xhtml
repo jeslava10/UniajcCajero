@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:tnt="http://primefaces.org/ui">
+
+
+
+<h:head>
+	<title>CRUD TIPO IDENTIFICACION</title>
+</h:head>
+
+<h:body>
+	<h1>CRUD TIPO IDENTIFICACION</h1>
+
+	<h:form id="form1">
+		<p:panel id="panel" header="Tipo Identificacion" style="margin-bottom:10px;">
+
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:outputLabel for="descripcion" value="descripcion:" />
+				<p:inputText  id="descripcion"
+					value="#{tipoIdentificacionBean.tipoIdentificacion.descripcion}" required="true" />
+
+			</h:panelGrid>
+		</p:panel>
+
+		<p:commandButton value="Guardar" action="#{tipoIdentificacionBean.addTipoIdentificacion}"
+			oncomplete="handleComplete(xhr, status, args)" />
+
+	</h:form>
+
+	<h:form id="form">
+		<p:dataTable value="#{tipoIdentificacionBean.allTipoIdentificacions}" var="identificacion"
+			style="margin: 2em;" rowKey="#{identificacion.idIdentificacion}">
+			<p:column rendered="false" headerText="Codigo">
+				<h:outputText value="#{identificacion.idIdentificacion}" />
+			</p:column>
+			<p:column headerText="Tipo Identificacion">
+				<h:outputText value="#{identificacion.descripcion}" />
+			</p:column>
+
+			<p:column style="width:100px;text-align: center">
+				<p:commandButton value="Editar" update=":form:identificacionEdit"
+					oncomplete="PF('editDialog').show()">
+					<f:setPropertyActionListener value="#{identificacion}"
+						target="#{tipoIdentificacionBean.tipoIdentificacionSeleccionado}" />
+				</p:commandButton>
+				<p:commandButton action="#{tipoIdentificacionBean.deleteTipoIdentificacion(identificacion)}"
+					value="Borrar"></p:commandButton>
+			</p:column>
+		</p:dataTable>
+
+		<p:dialog header="Actualizar Identificacion" widgetVar="editDialog" modal="true"
+			showEffect="fade" hideEffect="fade" resizable="false">
+			<p:outputPanel id="identificacionEdit" style="text-align:center;">
+				<p:panelGrid columns="2"
+					rendered="#{not empty tipoIdentificacionBean.tipoIdentificacionSeleccionado}"
+					columnClasses="label,value">
+					
+					<h:outputText value="id: " />
+					<p:inputText  value="#{tipoIdentificacionBean.tipoIdentificacionSeleccionado.idIdentificacion}" />
+					<h:outputText value="Descripcion: " />
+					<p:inputText  value="#{tipoIdentificacionBean.tipoIdentificacionSeleccionado.descripcion}" />
+
+				</p:panelGrid>
+
+				<p:commandButton value="Actualizar" icon="fa fa-fw fa-pencil"
+					action="#{tipoIdentificacionBean.updateTipoIdentificacion}"
+					oncomplete="handleComplete(xhr, status, args)" />
+
+			</p:outputPanel>
+		</p:dialog>
+
+	</h:form>
+
+</h:body>
+</html>

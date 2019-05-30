@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:tnt="http://primefaces.org/ui">
+
+
+
+<h:head>
+	<title>CRUD CUENTA</title>
+</h:head>
+
+<h:body>
+	<h1>CRUD CUENTA</h1>
+
+	<h:form id="formCuenta">
+		<p:panel id="panel" header="Cuenta" style="margin-bottom:10px;">
+
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:outputLabel for="nit" value="nit:" />
+				<p:inputText id="nit" value="#{cuentaBean.cuenta.producto}"
+					required="true" />
+
+				<p:outputLabel for="nombre" value="nombre:" />
+				<p:inputText id="nombre" value="#{CuentaBean.cuenta.estado}"
+					required="true" />
+
+				<p:outputLabel for="city" value="Editable: " />
+				<p:selectOneMenu id="city" value="#{cuentaBean.cuenta.banco}"
+					effect="fold" editable="true">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItems value="#{cuentaBean.allbancos}" />
+				</p:selectOneMenu>
+
+			</h:panelGrid>
+		</p:panel>
+
+		<p:commandButton value="Guardar" action="#{CuentaBean.addCuenta()}"
+			oncomplete="handleComplete(xhr, status, args)" />
+
+	</h:form>
+
+	<h:form id="formTable">
+		<p:dataTable value="#{CuentaBean.allCuentas}" var="Cuenta"
+			style="margin: 2em;" rowKey="#{Cuenta.idCuenta}">
+			<p:column rendered="false" headerText="id">
+				<h:outputText value="#{Cuenta.idCuenta}" />
+			</p:column>
+			<p:column headerText="nit">
+				<h:outputText value="#{Cuenta.numero}" />
+			</p:column>
+
+			<p:column style="width:100px;text-align: center">
+				<p:commandButton icon="fa fa-pencil" update=":form:CuentaEdit"
+					oncomplete="PF('editDialog').show()">
+					<f:setPropertyActionListener value="#{Cuenta}"
+						target="#{CuentaBean.cuentaSeleccionado}" />
+				</p:commandButton>
+				<p:commandButton action="#{CuentaBean.deleteCuenta(Cuenta)}"
+					icon="fa fa-trash"></p:commandButton>
+			</p:column>
+		</p:dataTable>
+
+		<p:dialog header="Edit Cuenta" widgetVar="editDialog" modal="true"
+			showEffect="fade" hideEffect="fade" resizable="false">
+			<p:outputPanel id="CuentaEdit" style="text-align:center;">
+				<p:panelGrid columns="2"
+					rendered="#{not empty CuentaBean.cuentaSeleccionado}"
+					columnClasses="label,value">
+
+					<h:outputText value="Name: " />
+					<p:inputText value="#{CuentaBean.cuentaSeleccionado.estado}" />
+					<h:outputText value="Name: " />
+					<p:inputText value="#{CuentaBean.cuentaSeleccionado.idCuenta}" />
+				</p:panelGrid>
+
+				<p:commandButton value="Update" icon="fa fa-fw fa-pencil"
+					action="#{CuentaBean.updateCuenta}"
+					oncomplete="handleComplete(xhr, status, args)" />
+
+			</p:outputPanel>
+		</p:dialog>
+
+	</h:form>
+
+</h:body>
+</html>

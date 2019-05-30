@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:tnt="http://primefaces.org/ui">
+
+
+
+<h:head>
+	<title>CRUD ESTADO</title>
+</h:head>
+
+<h:body>
+	<h1>CRUD ESTADO</h1>
+
+	<h:form id="form1">
+		<p:panel id="panel" header="Estado" style="margin-bottom:10px;">
+
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:outputLabel for="descripcion" value="descripcion:" />
+				<p:inputText  id="descripcion"
+					value="#{estadoBean.estado.descripcion}" required="true" />
+
+			</h:panelGrid>
+		</p:panel>
+
+		<p:commandButton value="Guardar" action="#{estadoBean.addEstado}"
+			oncomplete="handleComplete(xhr, status, args)" />
+
+	</h:form>
+
+	<h:form id="form">
+		<p:dataTable value="#{estadoBean.allEstados}" var="estado"
+			style="margin: 2em;" rowKey="#{estado.idEstado}">
+			<p:column rendered="false" headerText="Codigo">
+				<h:outputText value="#{estado.idEstado}" />
+			</p:column>
+			<p:column headerText="Estado">
+				<h:outputText value="#{estado.descripcion}" />
+			</p:column>
+
+			<p:column style="width:100px;text-align: center">
+				<p:commandButton icon="fa fa-pencil" update=":form:estadoEdit"
+					oncomplete="PF('editDialog').show()">
+					<f:setPropertyActionListener value="#{estado}"
+						target="#{estadoBean.estadoSeleccionado}" />
+				</p:commandButton>
+				<p:commandButton action="#{estadoBean.deleteEstado(estado)}"
+					icon="fa fa-trash"></p:commandButton>
+			</p:column>
+		</p:dataTable>
+
+		<p:dialog header="Edit Estado" widgetVar="editDialog" modal="true"
+			showEffect="fade" hideEffect="fade" resizable="false">
+			<p:outputPanel id="estadoEdit" style="text-align:center;">
+				<p:panelGrid columns="2"
+					rendered="#{not empty estadoBean.estadoSeleccionado}"
+					columnClasses="label,value">
+					
+					<h:outputText value="id: " />
+					<p:inputText  value="#{estadoBean.estadoSeleccionado.idEstado}" />
+					<h:outputText value="Descripcion: " />
+					<p:inputText value="#{estadoBean.estadoSeleccionado.descripcion}" />
+
+				</p:panelGrid>
+
+				<p:commandButton value="Update" icon="fa fa-fw fa-pencil"
+					action="#{estadoBean.updateEstado}"
+					oncomplete="handleComplete(xhr, status, args)" />
+
+			</p:outputPanel>
+		</p:dialog>
+
+	</h:form>
+
+</h:body>
+</html>
