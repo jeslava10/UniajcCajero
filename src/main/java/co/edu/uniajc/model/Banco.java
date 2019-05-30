@@ -1,9 +1,6 @@
 package co.edu.uniajc.model;
 // Generated 20/04/2019 10:28:16 AM by Hibernate Tools 5.1.0.Alpha1
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +14,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "banco")
 public class Banco implements java.io.Serializable {
+	
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_banco")
@@ -35,18 +34,7 @@ public class Banco implements java.io.Serializable {
 	@Column(name = "telefono")
 	private String telefono;
 	
-//	@Column(name = "cuentas")
-//	private Set cuentas = new HashSet(0);
-//	
-//	@Column(name = "cajeros")
-//	private Set cajeros = new HashSet(0);
-
 	public Banco() {
-	}
-
-	public Banco(String nit, String nombre) {
-		this.nit = nit;
-		this.nombre = nombre;
 	}
 
 	public Banco(String nit, String nombre, String direccion, String telefono) {
@@ -54,8 +42,7 @@ public class Banco implements java.io.Serializable {
 		this.nombre = nombre;
 		this.direccion = direccion;
 		this.telefono = telefono;
-//		this.cuentas = cuentas;
-//		this.cajeros = cajeros;
+		
 	}
 
 	public Integer getIdBanco() {
@@ -98,20 +85,6 @@ public class Banco implements java.io.Serializable {
 		this.telefono = telefono;
 	}
 
-//	public Set getCuentas() {
-//		return this.cuentas;
-//	}
-//
-//	public void setCuentas(Set cuentas) {
-//		this.cuentas = cuentas;
-//	}
-//
-//	public Set getCajeros() {
-//		return this.cajeros;
-//	}
-//
-//	public void setCajeros(Set cajeros) {
-//		this.cajeros = cajeros;
-//	}
+
 
 }
