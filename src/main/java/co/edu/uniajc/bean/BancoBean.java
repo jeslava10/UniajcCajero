@@ -2,8 +2,10 @@ package co.edu.uniajc.bean;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +25,9 @@ public class BancoBean {
 	@Autowired
 	private BancoService bancoService;
 	
+    private Banco banco = new Banco();
+    
 	private List<Banco> ListBanco;
-	
-	private Integer idBanco;
-	
-	private String nit;
-
-	private String nombre;
-	
-	private String direccion;
-	
-	private String telefono;
-	
 	
     public BancoService getBancoService() {
 		return bancoService;
@@ -52,101 +45,51 @@ public class BancoBean {
 		ListBanco = listBanco;
 	}
 
-	public Integer getIdBanco() {
-		return idBanco;
+	
+	public Banco getBanco() {
+		return banco;
 	}
 
-	public void setIdBanco(Integer idBanco) {
-		this.idBanco = idBanco;
-	}
-
-	public String getNit() {
-		return nit;
-	}
-
-	public void setNit(String nit) {
-		this.nit = nit;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
-
-	public String getTelefono() {
-		return telefono;
-	}
-
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
+	public void setBanco(Banco banco) {
+		this.banco = banco;
 	}
 
 	public void limpiarVariables() {
-		this.idBanco = 0;
-		
-		this.nit = "";
-
-		this.nombre= "";
-		
-		this.direccion= "";
-		
-		this.telefono= "";
 
 	}
 
 	public String  addbanco() {
 		
-    	Banco banco = new Banco();
-    	banco.setNit(getNit());
-    	banco.setNombre(getNombre());
-    	banco.setDireccion(getDireccion());
-    	banco.setTelefono(getTelefono());
 		bancoService.save(banco);
 		this.limpiarVariables();
+        this.banco = new Banco();
 		return "BancoViews.xhtml?faces-redirect=true";
 
 	}
 
-	public String  updatebanco() {
-    	
-		Banco bancoSeleccionado = new Banco();
-		bancoSeleccionado.setNit(getNit());
-		bancoSeleccionado.setNombre(getNombre());
-		bancoSeleccionado.setDireccion(getDireccion());
-		bancoSeleccionado.setTelefono(getTelefono());
-		bancoService.update(bancoSeleccionado);
+	public void  updatebanco() {
+		
+		bancoService.update(banco);
 		this.limpiarVariables();
-		return "BancoViews.xhtml?faces-redirect=true";
+		 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Update successful"));
 
 	}
 
-	public String deletebanco(Banco banco) {
+	public String deletebanco() {
 
 		bancoService.delete(banco);
-		bancoService.save(banco);
 		return "BancoViews.xhtml?faces-redirect=true";
 
 	}
 
 
-//	public List<Banco> getAllbancos() {
-//		
-//		ListBanco = null;
-//		ListBanco = bancoService.listaBanco();
-//		return ListBanco;
-//		
-//	}
+	public List<Banco> getAllbancos() {
+		
+		ListBanco = null;
+		ListBanco = bancoService.listaBanco();
+		return ListBanco;
+		
+	}
 
 
 }
