@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import co.edu.uniajc.model.Banco;
 import co.edu.uniajc.service.BancoService;
 
-@Component
+
 @ManagedBean(name = "bancoBean", eager = true)
 @RequestScoped
 public class BancoBean {
