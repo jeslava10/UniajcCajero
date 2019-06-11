@@ -2,46 +2,37 @@ package co.edu.uniajc.bean;
 
 import java.io.Serializable;
 import java.util.List;
-
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.primefaces.PrimeFaces;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import co.edu.uniajc.model.Banco;
 import co.edu.uniajc.service.BancoService;
 
 @Named("bancoBean")
 @RequestScoped
-public class BancoBean  implements Serializable{
-	
-	private static final long serialVersionUID = 5144116505060259792L;
+public class BancoBean implements Serializable {
 
+	private static final long serialVersionUID = 5144116505060259792L;
 
 	// @ManagedProperty(value = "#{message}") esto se usa en objetos que contengan
 	// datos
 
 	@Inject
 	private BancoService bancoService;
-	
+
 	private List<Banco> ListBanco;
-	
+
 	private Integer idBanco;
-	
+
 	private String nit;
 
 	private String nombre;
-	
+
 	private String direccion;
-	
+
 	private String telefono;
-	
-	
-    public BancoService getBancoService() {
+
+	public BancoService getBancoService() {
 		return bancoService;
 	}
 
@@ -99,32 +90,32 @@ public class BancoBean  implements Serializable{
 
 	public void limpiarVariables() {
 		this.idBanco = 0;
-		
+
 		this.nit = "";
 
-		this.nombre= "";
-		
-		this.direccion= "";
-		
-		this.telefono= "";
+		this.nombre = "";
+
+		this.direccion = "";
+
+		this.telefono = "";
 
 	}
 
-	public String  addbanco() {
-		
-    	Banco banco = new Banco();
-    	banco.setNit(getNit());
-    	banco.setNombre(getNombre());
-    	banco.setDireccion(getDireccion());
-    	banco.setTelefono(getTelefono());
+	public String addbanco() {
+
+		Banco banco = new Banco();
+		banco.setNit(getNit());
+		banco.setNombre(getNombre());
+		banco.setDireccion(getDireccion());
+		banco.setTelefono(getTelefono());
 		bancoService.save(banco);
 		this.limpiarVariables();
 		return "BancoViews.xhtml?faces-redirect=true";
 
 	}
 
-	public String  updatebanco() {
-    	
+	public String updatebanco() {
+
 		Banco bancoSeleccionado = new Banco();
 		bancoSeleccionado.setNit(getNit());
 		bancoSeleccionado.setNombre(getNombre());
@@ -144,7 +135,6 @@ public class BancoBean  implements Serializable{
 
 	}
 
-
 //	public List<Banco> getAllbancos() {
 //		
 //		ListBanco = null;
@@ -152,6 +142,5 @@ public class BancoBean  implements Serializable{
 //		return ListBanco;
 //		
 //	}
-
 
 }

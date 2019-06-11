@@ -1,37 +1,40 @@
 package co.edu.uniajc.bean;
 
+import java.io.Serializable;
 import java.util.List;
-
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-
-import org.primefaces.PrimeFaces;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
+import javax.inject.Inject;
+import javax.inject.Named;
 import co.edu.uniajc.model.Estado;
 import co.edu.uniajc.service.EstadoService;
 
-@Component
-@ManagedBean(name = "EstadoBean", eager = true)
+@Named("EstadoBean")
 @RequestScoped
-public class EstadoBean {
+public class EstadoBean implements Serializable {
+
+	private static final long serialVersionUID = 5144116505060259792L;
 
 	// @ManagedProperty(value = "#{message}") esto se usa en objetos que contengan
 	// datos
 
-	@Autowired
+	@Inject
 	private EstadoService EstadoService;
-	private List<Estado> ListEstado;
-	private Integer idEstado;
-	private String descripcion;
 
-	public EstadoService getEstadoService() {
-		return EstadoService;
+	private List<Estado> ListEstado;
+
+	private Integer idEstado;
+	private String Descripcion;
+
+	public Integer getIdEstado() {
+		return idEstado;
 	}
 
-	public void setEstadoService(EstadoService EstadoService) {
-		this.EstadoService = EstadoService;
+	public void setIdEstado(Integer idEstado) {
+		this.idEstado = idEstado;
+	}
+
+	public void setDescripcion(String Descripcion) {
+		this.Descripcion = Descripcion;
 	}
 
 	public List<Estado> getListEstado() {
@@ -42,18 +45,13 @@ public class EstadoBean {
 		ListEstado = listEstado;
 	}
 
-	public Integer getIdEstado() {
-		return idEstado;
-	}
-
-	public void setIdEstado(Integer idEstado) {
-		this.idEstado = idEstado;
+	public String getDescripcion() {
+		return Descripcion;
 	}
 
 	public void limpiarVariables() {
 		this.idEstado = 0;
-		this.descripcion = "";
-
+		this.Descripcion = "";
 	}
 
 	public String addEstado() {
@@ -61,8 +59,6 @@ public class EstadoBean {
 		Estado Estado = new Estado();
 		Estado.setIdEstado(getIdEstado());
 		Estado.setDescripcion(getDescripcion());
-
-		EstadoService.save(Estado);
 		this.limpiarVariables();
 		return "EstadoViews.xhtml?faces-redirect=true";
 
@@ -71,10 +67,8 @@ public class EstadoBean {
 	public String updateEstado() {
 
 		Estado EstadoSeleccionado = new Estado();
-		EstadoSeleccionado.setNit(getNit());
-		EstadoSeleccionado.setNombre(getNombre());
-		EstadoSeleccionado.setDireccion(getDireccion());
-		EstadoSeleccionado.setTelefono(getTelefono());
+		EstadoSeleccionado.setIdEstado(getIdEstado());
+		EstadoSeleccionado.setDescripcion(getDescripcion());
 		EstadoService.update(EstadoSeleccionado);
 		this.limpiarVariables();
 		return "EstadoViews.xhtml?faces-redirect=true";
